@@ -1,1 +1,31 @@
-spring.application.name=metrics-consumer
+spring:
+  application:
+    name: metrics-consumer
+  liquibase:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:metrics_db}
+    user: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres_pass}
+  jpa:
+    show-sql: on
+    database: postgresql
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:metrics_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres_pass}
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    consumer:
+      group-id: group-metrics
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:29092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        "[spring.json.value.default.type]": "com.example.metricsconsumer.dto.MetricsDto"
+        "[spring.json.trusted.packages]": "com.example.metricsproducer.dto.MetricsDto"
+        "[spring.json.use.type.headers]": false
+server:
+  port: 8080
