@@ -17,6 +17,16 @@ spring:
     password: ${DB_PASSWORD:postgres_pass}
     driver-class-name: org.postgresql.Driver
   kafka:
+    security:
+      protocol: "SSL"
+    ssl:
+      trust-store-location: file:./certs/kafka.zookeeper.truststore.jks
+      trust-store-password: secret
+      key-store-location: file:./certs/kafka.zookeeper.keystore.jks
+      key-password: secret
+      key-store-password: secret
+      key-store-type: JKS
+      trust-store-type: JKS
     consumer:
       group-id: group-metrics
       auto-offset-reset: earliest
