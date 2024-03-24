@@ -1,7 +1,6 @@
 package com.example.metricsconsumer.controller;
 
 import com.example.metricsconsumer.dto.MetricsDto;
-import com.example.metricsconsumer.entity.Metrics;
 import com.example.metricsconsumer.service.MetricsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,5 +29,12 @@ public class MetricsController {
   @GetMapping("/metrics/{id}")
   public ResponseEntity<?> getById(@PathVariable UUID id) {
     return new ResponseEntity<>(metricsService.getById(id), HttpStatus.OK);
+  }
+
+  @GetMapping("/metrics/dates")
+  public ResponseEntity<?> getByCreatedAt(
+    @RequestParam Long from,
+    @RequestParam Long to) {
+    return new ResponseEntity<>(metricsService.getMetricsByCreatedAt(from, to), HttpStatus.OK);
   }
 }

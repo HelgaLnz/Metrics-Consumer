@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -45,5 +47,20 @@ public class MetricsService {
         .createdAt(metrics.getCreatedAt())
         .build())
       .orElseThrow();
+  }
+
+  public List<MetricsDto> getMetricsByCreatedAt(Long from, Long to) {
+    return metricsRepository.getByCreatedAtBetween(
+        new Date(from),
+        new Date(to)
+      )
+      .stream()
+      .map(metrics -> MetricsDto.builder()
+        .name(metrics.getName())
+        .description(metrics.getDescription())
+        .measurements(metrics.getMeasurements().getMeasurements())
+        .createdAt(metrics.getCreatedAt())
+        .build())
+      .toList();
   }
 }

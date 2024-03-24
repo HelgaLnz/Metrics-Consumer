@@ -32,5 +32,5 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: created_at
-                  type: DATETIME
+                  type: TIMESTAMP
             tableName: metrics
