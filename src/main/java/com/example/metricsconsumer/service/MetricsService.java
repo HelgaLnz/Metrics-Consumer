@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Сервис для метрик
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class MetricsService {
 
   private final MetricsRepository metricsRepository;
 
+  /* Сохранить метрики */
   public void saveMetrics(MetricsDto metricsKafka) {
     metricsRepository.save(Metrics.builder()
       .name(metricsKafka.getName())
@@ -30,6 +34,7 @@ public class MetricsService {
     log.info(metricsKafka.toString());
   }
 
+  /* Получить все метрики */
   public Page<MetricsDto> getAll(PageRequest pageable) {
     return metricsRepository.findAll(pageable).map(metrics -> MetricsDto.builder()
       .name(metrics.getName())
@@ -39,6 +44,7 @@ public class MetricsService {
       .build());
   }
 
+  /* Получить метрики по id */
   public MetricsDto getById(UUID id) {
     return metricsRepository.findById(id).map(metrics -> MetricsDto.builder()
         .name(metrics.getName())
@@ -49,6 +55,7 @@ public class MetricsService {
       .orElseThrow();
   }
 
+  /* Получить метрики по диапазону timestamp */
   public List<MetricsDto> getMetricsByCreatedAt(Long from, Long to) {
     return metricsRepository.getByCreatedAtBetween(
         new Date(from),
